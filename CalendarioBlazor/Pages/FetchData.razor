@@ -1,0 +1,47 @@
+﻿@page "/fetchdata"
+
+@using CalendarioBlazor.Data._Repositorio
+@using CalendarioBlazor.Data._Repositorio.Core
+@using CalendarioBlazor.Models
+@inject IEventoRepositorio EventoRepositorio
+
+<h1>Eventos</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (EventoRepositorio == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Data Início</th>
+                <th>Data Final</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in eventos)
+            {
+                <tr>
+                    <td>@item.Nome</td>
+                    <td>@item.Descricao</td>
+                    <td>@item.Inicio</td>
+                    <td>@item.Fim</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    IEnumerable<Evento> eventos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        eventos = EventoRepositorio.ListarTodosEventos();
+    }
+}
